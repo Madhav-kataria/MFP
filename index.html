@@ -31,7 +31,7 @@
       letter-spacing: 2px;
       font-weight: 800;
       text-shadow: 0 2px 8px #33415599;
-      color: #fff; /* Remove gradient, solid white */
+      color: #fff;
       transition: letter-spacing 0.3s;
       position: relative;
       background: none !important;
@@ -72,7 +72,7 @@
       background: #0f172a;
       border-radius: 2px;
       opacity: 0; transform: scaleX(0);
-      transition: all 0.4s cubic-bezier(.4,0,.2,1);
+      transition: all 0.3s cubic-bezier(.4,0,.2,1); /* Adjusted duration */
     }
     .nav-link.active, .nav-link:hover { color: #0f172a !important; }
     .nav-link.active .nav-underline, .nav-link:hover .nav-underline {
@@ -81,12 +81,11 @@
     .nav-link.active { font-weight: 700; }
     @media (max-width: 768px) {
       .logo-text {
-        font-size: 1rem; /* Even smaller font size for mobile */
+        font-size: 1rem;
       }
       .nav-link { width: 100%; font-size: 1.1rem;}
       .nav-link .nav-underline { left: 30%; right: 30%; height: 4px;}
     }
-    /* About section mobile optimization */
     @media (max-width: 768px) {
       .about-flex-mobile {
         flex-direction: column !important;
@@ -147,10 +146,16 @@
         margin-left: 0;
         min-width: 0;
         flex: 1;
-        cursor: pointer; /* Indicate it's clickable */
+        cursor: pointer;
+        transition: background 0.4s, box-shadow 0.3s;
+        position: relative; /* Added for absolute positioning of new arrow */
+      }
+      .timeline-content:hover {
+        background: #eef2ff;
+        box-shadow: 0 6px 32px #6366f124;
       }
       .timeline-details {
-        background: #eef2ff; /* Lighter background for details */
+        background: #eef2ff;
         border-radius: 0.75rem;
         padding: 0.75rem 1.25rem;
         margin-top: 0.75rem;
@@ -159,14 +164,17 @@
         font-size: 0.95rem;
         color: #334155;
         box-shadow: inset 0 1px 4px rgba(0,0,0,0.05);
-        overflow: hidden; /* For height transition */
-        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-        max-height: 0; /* Initial state */
-        opacity: 0; /* Initial state */
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s, transform 0.4s; /* Adjusted duration */
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-20px);
+        will-change: max-height, opacity, transform;
       }
       .timeline-details.open {
-        max-height: 500px; /* Adjust as needed for content */
+        max-height: max-content; /* Changed to max-content */
         opacity: 1;
+        transform: translateY(0);
       }
     }
     @media (max-width: 640px) {
@@ -180,28 +188,84 @@
         padding: 1rem 1rem;
         margin-left: 0;
         margin-top: 0;
-        cursor: pointer; /* Indicate it's clickable */
+        cursor: pointer;
+        transition: background 0.4s, box-shadow 0.3s;
+        position: relative; /* Added for absolute positioning of new arrow */
+      }
+      .timeline-content:hover {
+        background: #eef2ff;
+        box-shadow: 0 6px 32px #6366f124;
       }
       .timeline-details {
-        background: #eef2ff; /* Lighter background for details */
+        background: #eef2ff;
         border-radius: 0.75rem;
         padding: 0.75rem 1rem;
         margin-top: 0.75rem;
         font-size: 0.95rem;
         color: #334155;
         box-shadow: inset 0 1px 4px rgba(0,0,0,0.05);
-        overflow: hidden; /* For height transition */
-        transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
-        max-height: 0; /* Initial state */
-        opacity: 0; /* Initial state */
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s, transform 0.4s; /* Adjusted duration */
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-20px);
+        will-change: max-height, opacity, transform;
       }
       .timeline-details.open {
-        max-height: 500px; /* Adjust as needed for content */
+        max-height: max-content; /* Changed to max-content */
         opacity: 1;
+        transform: translateY(0);
       }
     }
     .pulse { animation: buttonPulse 2s infinite;}
     @keyframes buttonPulse { 0%{box-shadow:0 0 0 0 #33415599;}70%{box-shadow:0 0 0 10px #0f172a00;}100%{box-shadow:0 0 0 0 #33415599;} }
+    /* Animation for section in */
+    .animate-section-in {
+      animation: sectionIn 0.45s cubic-bezier(.53,.06,.49,.96);
+    }
+    @keyframes sectionIn {
+      0% { opacity: 0; transform: translateY(40px) scale(.98);}
+      80% { opacity: 1; transform: translateY(-7px) scale(1.005);}
+      100% { opacity: 1; transform: translateY(0) scale(1);}
+    }
+    /* Card float-in animation */
+    .card-float-in {
+      opacity: 0;
+      transform: translateY(32px) scale(.97);
+      animation: cardFloatIn 0.77s cubic-bezier(.53,.06,.49,.96) forwards;
+    }
+    .card-float-in:nth-child(1) { animation-delay: 0.05s;}
+    .card-float-in:nth-child(2) { animation-delay: 0.09s;}
+    .card-float-in:nth-child(3) { animation-delay: 0.14s;}
+    .card-float-in:nth-child(4) { animation-delay: 0.19s;}
+    .card-float-in:nth-child(5) { animation-delay: 0.23s;}
+    @keyframes cardFloatIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    /* New animation for the indicator arrow */
+    @keyframes bounceSlow {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(5px);
+      }
+    }
+    .animate-bounce-slow {
+      animation: bounceSlow 1.5s infinite;
+    }
+    /* Animation for the contact emoji */
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
+    }
+    .animate-wiggle {
+      animation: wiggle 0.5s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -209,11 +273,10 @@
   <script type="text/babel">
     const NAV_TABS = [
       { id: 'about', label: 'About' },
-      { id: 'journey', label: 'Life Journey', mobileLabel: 'Life' }, // Added mobileLabel
+      { id: 'journey', label: 'Life Journey', mobileLabel: 'Life' },
       { id: 'resume', label: 'Resume' },
       { id: 'contact', label: 'Contact' }
     ];
-    // Removed JourneyTabs as per request
 
     function Navbar({ activeTab, setActiveTab }) {
       const [isMobile, setIsMobile] = React.useState(window.innerWidth <= 768);
@@ -227,7 +290,7 @@
       }, []);
 
       return (
-        <header className="bg-white/75 backdrop-blur shadow sticky top-0 z-50 transition"> {/* Re-added sticky top-0 */}
+        <header className="bg-white/75 backdrop-blur shadow sticky top-0 z-50 transition">
           <div className="container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between py-3 px-4 md:px-8">
             <span className="logo-frame group cursor-pointer select-none">
               <span className="logo-text group-hover:tracking-widest transition-all">Madhav Kataria</span>
@@ -241,7 +304,7 @@
                       className={"nav-link" + (activeTab === tab.id ? " active" : "") + " px-3 py-2 rounded-md transition-all duration-300"}
                       onClick={() => setActiveTab(tab.id)}
                     >
-                      {isMobile && tab.mobileLabel ? tab.mobileLabel : tab.label} {/* Conditional label for mobile */}
+                      {isMobile && tab.mobileLabel ? tab.mobileLabel : tab.label}
                       <span className="nav-underline"></span>
                     </button>
                   </li>
@@ -252,7 +315,6 @@
         </header>
       );
     }
-    // SubTabNav component removed as per request
 
     function About({ showSection }) {
       return (
@@ -260,7 +322,7 @@
           <div className="relative z-10 flex about-flex-mobile md:flex-row flex-col items-center md:items-start space-y-6 md:space-y-0 md:space-x-10">
             <div className="flex-shrink-0 flex flex-col items-center md:items-start about-photo-mobile">
               <div className="about-photo-bg mb-3 mt-2 shadow-lg hover:scale-105 transition-transform duration-500">
-                <img src="https://placehold.co/160x160/1e293b/f1f5f9?text=Your+Photo" alt="Madhav Kataria" className="rounded-full w-40 h-40 object-cover shadow-xl border-4 border-white" />
+                <img src="Madhav-kataria.jpg" alt="Madhav Kataria" className="rounded-full w-40 h-40 object-cover shadow-xl border-4 border-white" />
               </div>
             </div>
             <div className="flex-grow about-text-mobile">
@@ -297,77 +359,74 @@
     }
 
     function Journey() {
-      // Removed activeSubTab state as per request
-      const [showDetails, setShowDetails] = React.useState({}); // State to manage visibility of details
+      const [showDetails, setShowDetails] = React.useState({});
 
       const toggleDetails = (index) => {
         setShowDetails(prev => ({
           ...prev,
-          [index]: !prev[index]
+          [index]: !prev[index] // This toggles the state, so clicking an open tab will close it
         }));
       };
 
       const timelineItems = [
-        { 
-          title: "Started Bachelor's Degree at IIT Guwahati", 
-          time: "Year of Enrollment - Present", 
+        {
+          title: "Started Bachelor's Degree at IIT Guwahati",
+          time: "Year of Enrollment - Present",
           desc: "Began my Bachelor's in Data Science and AI from IIT Guwahati, diving deep into cutting-edge technologies and foundational concepts.",
           fullDesc: `Commenced a rigorous Bachelor's program in Data Science and AI at IIT Guwahati, one of India's premier technical institutions. This program has provided a strong foundation in algorithms, machine learning, artificial intelligence, and data analytics. Actively involved in various academic projects and research initiatives, exploring advanced topics and developing practical skills in data manipulation, model building, and system optimization. My coursework includes subjects like advanced statistics, deep learning, natural language processing, and big data technologies, preparing me for a career at the forefront of data innovation.`,
-          logoUrl: "https://placehold.co/40x40/f1f5f9/1e293b?text=IIT" // Placeholder for IIT Guwahati logo
+          logoUrl: "IITG_logo.png"
         },
-        { 
-          title: "Training at HCL TechBee Program", 
-          time: "Sept 2022 - Mar 2023", 
+        {
+          title: "Training at HCL TechBee Program",
+          time: "Sept 2022 - Mar 2023",
           desc: "Completed intensive 6-month training focusing on Data Centre Operations, Linux CLI, networking, AWS, and basic programming.",
           fullDesc: `Underwent comprehensive 6-month training through the HCL TechBee Program, designed to equip me with essential IT skills. The curriculum covered Data Centre Operations, providing insights into managing and maintaining critical IT infrastructure. Gained practical experience with Linux CLI, network configuration, and DHCP/IP setup. Acquired fundamental knowledge in networking concepts using Cisco VLANs, routing protocols, and SSH. Understood Windows Server administration, including Active Directory and RAID setup. Received hands-on training in Amazon Web Services (AWS), focusing on cloud services like EC2, S3, and VPC, and Elastic Beanstalk. Additionally, I was introduced to basic programming concepts in Python, C, SQL, and Oracle, laying a strong foundation for future development roles. This program fostered a practical, problem-solving approach to IT challenges.`,
-          logoUrl: "https://placehold.co/40x40/f1f5f9/1e293b?text=HCL" // Placeholder for HCL logo
+          logoUrl: "hcl.png"
         },
-        { 
-          title: "Internship at HCL - Technical Support Engineer", 
-          time: "Mar 2023 - Sept 2023", 
+        {
+          title: "Internship at HCL - Technical Support Engineer",
+          time: "Mar 2023 - Sept 2023",
           desc: "Served as Technical Support Engineer for Ericsson Global Organization, achieving high resolve counts and contributing to knowledge base articles.",
           fullDesc: `Worked as a Technical Support Engineer intern for Ericsson Global Organization, providing first-line and second-line support for complex technical issues. My responsibilities included diagnosing and resolving hardware and software problems, troubleshooting network connectivity, and assisting users with various IT-related queries. Consistently achieved high resolve count and received user satisfaction certificates, demonstrating effective problem-solving skills. Received recognition from the Global Quality and Process Head at Ericsson for contributions. Actively contributed to the internal knowledge base by drafting detailed technical articles for new technologies and solutions, improving efficiency for the support team and self-service options for users. Participated in the Skill India platform under managerial guidance, showcasing technical abilities in a competitive environment.`,
-          logoUrl: "https://placehold.co/40x40/f1f5f9/1e293b?text=Ericsson" // Placeholder for Ericsson logo
+          logoUrl: "ericsson.png"
         },
-        { 
-          title: "Full-Time Role & Automation Specialist", 
-          time: "Sept 2023 - Present", 
+        {
+          title: "Full-Time Role & Automation Specialist",
+          time: "Sept 2023 - Present",
           desc: "Transitioned to a full-time role, focusing on automation with Power Apps and Power Automate, and developing Power BI reports.",
           fullDesc: `Transitioned into a full-time role as a Technical Support Engineer and Automation Specialist. A significant portion of my role involves developing and implementing automation solutions using Microsoft Power Platform. This includes creating robust applications with Power Apps to streamline business processes, automating repetitive tasks with Power Automate flows, and designing interactive Power BI reports to provide data-driven insights. I am responsible for identifying automation opportunities, gathering requirements from stakeholders, and delivering solutions that enhance operational efficiency, reduce manual effort, and improve accuracy across various IT infrastructure domains. I collaborate closely with cross-functional teams to ensure seamless integration and deployment of automation initiatives. Developed an attendance tracker application on the Power Apps platform to streamline project resource management. Implemented automated data archiving processes, including duplication removal, improving data integrity. Created a KBA-review application and Power BI reports to enhance knowledge management and data-driven insights. Developed scripts for browser cache and cookies management to improve system performance and user experience.`,
-          logoUrl: "https://placehold.co/40x40/f1f5f9/1e293b?text=MS" // Placeholder for Microsoft logo
+          logoUrl: "hcl.png"
         },
-        { 
-          title: "Developed Key Power Platform Applications", 
-          time: "Ongoing", 
+        {
+          title: "Developed Key Power Platform Applications",
+          time: "Ongoing",
           desc: "Successfully developed and deployed the Attendance Tracker and KBA Review applications, significantly improving operational efficiency.",
           fullDesc: `Led the development and deployment of critical applications using the Microsoft Power Platform, resulting in significant operational improvements. The 'Attendance Tracker' application, built with Power Apps and Power Automate, centralized resource management, tracked daily attendance, calculated absenteeism rates, and automated shift reminders. This significantly streamlined project resource allocation for Quality Managers and Team Leads. It includes daily resource allocation tracking for QM/Leads, target assignment and project requirement management, absenteeism percentage calculation by role/location/Manager, automated data archiving using Power Automate, automated correction of incorrect attendance records, and real-time Power BI reporting and analytics. Technologies used: Power Apps, Power BI, Power Automate, SharePoint.
 
 The 'KBA Review' application, also on Power Apps, transformed knowledge article quality management. It enabled structured reviews, integrated Gen-AI Bot optimization formatting, automated dynamic email notifications to L2 teams, and facilitated a ticketing tool-like workflow for knowledge base article updates. This includes a knowledge article quality review system, Gen-AI Bot optimization formatting, dashboards to track ongoing activities, automated dynamic email system to different L2 teams after KBA review, automated assignment to L2 groups, automated feedback to SD when changes are completed, and ticketing tool-like workflow management. Technologies used: Power Apps, Power BI, Power Automate, AI Integration.
 
 Both projects involved end-to-end development, from requirements gathering to deployment and post-launch support, demonstrating my ability to deliver high-impact solutions. Leveraging the Microsoft Power Platform to automate processes and provide data-driven solutions for HCL and Ericsson: developed tools for attendance tracking with role-based access and automated shift reminders; integrated Power Apps with ticketing systems to streamline workflows; created and delivered data reports using Power BI for Mondelez EUC and EUC Tech departments, providing valuable insights.`,
-          logoUrl: "https://placehold.co/40x40/f1f5f9/1e293b?text=Power" // Placeholder for Power Platform logo
+          logoUrl: "hcl.png"
         },
-        { 
-          title: "Recognized for Automation & Quality", 
-          time: "Ongoing", 
+        {
+          title: "Recognized for Automation & Quality",
+          time: "Ongoing",
           desc: "Received multiple HCL certificates and client appreciation for automation, reports, highest resolve count and user satisfaction, with work recognized by Ericsson's Global Quality Head.",
           fullDesc: `Consistently recognized for outstanding contributions to automation and quality initiatives. Received various motivating certificates by HCL including the certificate for Automation and reports, highest resolve count and user satisfaction, leading to measurable improvements in efficiency and decision-making. Consistently achieved the highest resolve count among peers and garnered widespread user satisfaction, evidenced by over 50 positive client feedback instances. My work has been specifically acknowledged by the Global Quality and Process Head of Ericsson, highlighting the significant impact of my automation efforts on their global operations. Additionally, I contributed to drafting numerous useful Knowledge-Based Articles (KBAs), further enhancing knowledge management. I was also proud to represent at the State Level for Cloud Computing at Skill India in Bangalore, showcasing my technical expertise. Recognized Performing Artist on All India Radio (Nationally Broadcasted).`,
-          logoUrl: "https://placehold.co/40x40/f1f5f9/1e293b?text=Award" // Placeholder for Award logo
+          logoUrl: "ericsson.png"
         }
       ];
       return (
         <section className="animate-section-in bg-gradient-to-br from-indigo-50/70 via-blue-50/70 to-white p-7 rounded-3xl shadow-2xl mb-10">
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-2 tracking-tight drop-shadow-sm">My Life Journey &amp; Experiences</h2>
           <p className="text-center text-gray-700 mb-6">Explore the significant milestones, professional growth, and personal experiences that have shaped my journey.</p>
-          {/* SubTabNav component removed */}
-          {/* Timeline */}
           <div className="mt-10">
             <h3 className="text-xl font-bold text-blue-700 mb-2">Timeline</h3>
             <ol className="timeline-list">
               {timelineItems.map((item, i) => (
                 <li className="timeline-item" key={i}>
                   <span className="timeline-dot">{i+1}</span>
-                  <div className="flex-1"> {/* This div ensures content and details align under the dot */}
+                  <div className="flex-1">
                     <div className="timeline-content cursor-pointer flex justify-between items-start" onClick={() => toggleDetails(i)}>
                       <div className="flex-grow">
                         <h4 className="font-bold text-slate-800">{item.title}</h4>
@@ -377,22 +436,27 @@ Both projects involved end-to-end development, from requirements gathering to de
                       {item.logoUrl && (
                         <img src={item.logoUrl} alt={`${item.title} logo`} className="w-10 h-10 object-contain ml-4 mt-1 flex-shrink-0" onerror="this.onerror=null;this.src='https://placehold.co/40x40/f1f5f9/1e293b?text=Logo';" />
                       )}
-                      <svg className={`w-5 h-5 text-gray-600 transition-transform duration-300 ml-2 mt-1 ${showDetails[i] ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                      </svg>
+                      {/* New indicator arrow at the bottom-right */}
+                      {!showDetails[i] && (
+                        <div className="absolute bottom-2 right-2"> {/* Positioned at bottom-right */}
+                          <svg className="w-6 h-6 text-gray-400 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7-7-7"></path>
+                          </svg>
+                        </div>
+                      )}
                     </div>
-                    {showDetails[i] && (
-                      <div className={`timeline-details mt-2 ${showDetails[i] ? 'open' : ''}`}>
+                    {/* Added onClick to timeline-details as well */}
+                    <div className={`timeline-details mt-2${showDetails[i] ? ' open' : ''}`} onClick={() => toggleDetails(i)}>
+                      {showDetails[i] && (
                         <p>{item.fullDesc}</p>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </li>
               ))}
             </ol>
             <p className="text-center text-gray-700 mt-8 text-lg font-semibold">Learning and developing skills to contribute and make a meaningful impact!</p>
           </div>
-          {/* Subtab Details section removed */}
         </section>
       );
     }
@@ -411,14 +475,17 @@ Both projects involved end-to-end development, from requirements gathering to de
         html2pdf().set(opt).from(element).save();
       }
       return (
-        <section className="animate-section-in bg-white p-7 rounded-3xl shadow-2xl mb-10">
+        <section className="animate-section-in bg-white p-7 rounded-3xl shadow-2xl mb-10 relative"> {/* Added relative positioning here */}
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-6 tracking-tight drop-shadow-sm">Resume</h2>
-          <div className="text-center mb-6">
-            <button onClick={downloadResume} className="inline-block bg-gradient-to-r from-blue-950 to-blue-800 hover:from-sky-900 hover:to-blue-900 text-white font-semibold py-2 px-7 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 pulse">
-              Download This Resume
+          {/* Download button moved to top right corner */}
+          <div className="absolute top-4 right-4">
+            <button onClick={downloadResume} className="text-blue-700 font-semibold text-sm hover:underline flex items-center">
+              Download
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
             </button>
           </div>
-          {/* The content below will be exported to PDF */}
           <div id="resume-content" className="card-float-in mb-6 bg-gradient-to-br from-slate-100 via-gray-50 to-white rounded-xl p-6 shadow-md">
             <div className="text-lg font-semibold text-gray-800 mb-2">Professional Summary</div>
             <p className="text-gray-700 mb-2">2.5+ years of experience as Analyst at HCL-Tech with expertise in developing RPA solutions using Microsoft Power Automate Platform, creating custom applications via Power Apps Platform, and building industry-level Power BI Reports and Dashboards. Proven track record in analyzing organizational data in IT Infrastructure domain and tracking trends affecting SLAs and KPIs.</p>
@@ -434,8 +501,19 @@ Both projects involved end-to-end development, from requirements gathering to de
                 </ul>
                 <h3 className="font-bold text-lg text-blue-900 mt-5 mb-2">Certifications</h3>
                 <ul className="list-disc ml-6 text-gray-700">
+                  <li>
+                    <a href="https://www.credly.com/badges/513343d0-0d83-4761-9916-f6324436d81f/public_url" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Google Cloud Associate Certificate</a>
+                  </li>
+                  <li>
+                    <a href="https://learn.microsoft.com/api/credentials/share/en-us/MadhavKataria-2316/FBC420B1E155F51?sharingId=D371C6433FF7895E" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Microsoft Certified: Azure Fundamentals</a>
+                  </li>
+                  <li>
+                    <a href="https://learn.microsoft.com/api/credentials/share/en-us/MadhavKataria-2316/ADFE157B160ACCDB?sharingId=D371C6433FF7895E" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Microsoft Certified: Azure Data Fundamentals</a>
+                  </li>
+                  <li>
+                    <a href="https://learn.microsoft.com/api/credentials/share/en-us/MadhavKataria-2316/4A3C78C162C56208?sharingId=D371C6433FF7895E" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Microsoft Certified: Azure AI Fundamentals</a>
+                  </li>
                   <li>IIT Workshops: AI, Cybersecurity, Machine Learning.</li>
-                  <li>Microsoft (3 certificates) and Google Associate Certification.</li>
                   <li>CBSE Certificate: Full Marks in Information Technologies (2018).</li>
                   <li>Prayag University: Prabhakar Degree (Tabla), Harmony 3rd Year.</li>
                 </ul>
@@ -492,7 +570,6 @@ Both projects involved end-to-end development, from requirements gathering to de
       );
     }
 
-    // Contact using Formspree
     function Contact() {
       const [sent, setSent] = React.useState(false);
       const [error, setError] = React.useState(false);
@@ -530,6 +607,9 @@ Both projects involved end-to-end development, from requirements gathering to de
       return (
         <section className="animate-section-in bg-gradient-to-br from-indigo-50/80 via-blue-50/80 to-white p-8 rounded-3xl shadow-2xl mb-10 max-w-lg mx-auto">
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-6 tracking-tight drop-shadow-sm">Contact Me</h2>
+          <p className="text-center text-gray-700 mb-6 flex items-center justify-center">
+            Let's build something amazing together! &nbsp; <span className="text-2xl animate-wiggle">🚀</span>
+          </p>
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="block mb-1 font-semibold text-gray-700">Your Name</label>
@@ -553,9 +633,9 @@ Both projects involved end-to-end development, from requirements gathering to de
           </form>
           <div className="mt-6 text-center text-gray-600">
             <div className="mb-2">Or email directly:</div>
-            <a href="mailto:your@email.com" className="text-blue-700 font-semibold hover:underline">your@email.com</a>
+            <a href="mailto:contact.madhavkataria@gmail.com" className="text-blue-700 font-semibold hover:underline">contact.madhavkataria@gmail.com</a>
             <div className="mt-2">
-              <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank" rel="noopener noreferrer" className="text-blue-700 font-semibold hover:underline">Connect on LinkedIn</a>
+              <a href="https://www.linkedin.com/in/madhav-k-804904262/" target="_blank" rel="noopener noreferrer" className="text-blue-700 font-semibold hover:underline">Connect on LinkedIn</a>
             </div>
           </div>
         </section>
